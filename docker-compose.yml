@@ -1,0 +1,28 @@
+version: '3.0'
+
+services:
+  
+  mongodb:
+    image: mongo:3.6
+    container_name: "mongodb"
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_ADMIN_USERNAME=${MONGO_ADMIN_USERNAME}
+      - MONGO_ADMIN_PASSWORD=${MONGO_ADMIN_PASSWORD}
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_DBUSER=${MONGO_DBUSER}
+      - MONGO_DBUSER_PASSWORD=${MONGO_DBUSER_PASSWORD}
+    env_file: 
+      - .env
+    restart: "always"
+    volumes:
+      #add persistent storage
+      - mongodb:/data/db
+      #add path to startup script
+      - "$PWD/mongo-entrypoint/:/docker-entrypoint-initdb.d/"
+
+volumes:
+  mongodb:
